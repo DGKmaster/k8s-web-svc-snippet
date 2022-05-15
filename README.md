@@ -97,7 +97,11 @@ docker push dgkmaster/ubuntu-pcl
 ### Test API
 
 ```bash
-curl -x 192.168.49.2:80 dgk.io/svc
-curl localhost:8081/add -H "Content-Type: application/json" -d '{"city":"London"}'
+# From local dev
 curl localhost:8081/all
+curl localhost:8081/add -H "Content-Type: application/json" -d '{"city":"Chicago"}'
+
+# From ingress
+curl -x 192.168.49.2:80 dgk.io/svc/all
+curl -x 192.168.49.2:80 dgk.io/svc/add -H "Content-Type: application/json" -d '{"city":"Chicago"}'
 ```
