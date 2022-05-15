@@ -2,8 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
-	"html"
 	"log"
 	"net/http"
 
@@ -12,11 +10,14 @@ import (
 )
 
 type Town struct {
-	ID   uint   `gorm:"primaryKey;autoIncrement" json:"-"`
+	// ID is not used in return in /all endpoint
+	ID uint `gorm:"primaryKey;autoIncrement" json:"-"`
+	// City must be unique and not empty string
 	City string `gorm:"not null;unique" json:"city"`
 }
 
 func main() {
+	// DB connection
 	// TODO: Change to ENV and Secret
 	dsn := "host=db-service user=postgres password=postgres_secret dbname=postgres port=5432 sslmode=disable TimeZone=Europe/Moscow"
 	// dsn := "host=localhost user=postgres password=postgres_secret dbname=postgres port=5432 sslmode=disable TimeZone=Europe/Moscow"
@@ -24,13 +25,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	// Auto create table towns and update based on model
 	db.AutoMigrate(&Town{})
-	// db.Migrator().CreateTable(&Town{})
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
-	})
-
+	// Add new town ednpoint
+	// If it is existed do not create duplicate
 	http.HandleFunc("/add", func(w http.ResponseWriter, r *http.Request) {
 		var town Town
 		err := json.NewDecoder(r.Body).Decode(&town)
@@ -39,7 +39,6 @@ func main() {
 		}
 		db.Create(&town)
 
-		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
 		resp := "Completed"
 		jsonResp, err := json.Marshal(resp)
@@ -49,8 +48,9 @@ func main() {
 		w.Write(jsonResp)
 	})
 
+	// List all cities endpoint
 	http.HandleFunc("/all", func(w http.ResponseWriter, r *http.Request) {
-		// fmt.Fprintf(w, "all")
+		// TODO: Limit output
 		town := []Town{}
 		db.Find(&town)
 
@@ -65,7 +65,6 @@ func main() {
 			return
 		}
 
-		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 	})
