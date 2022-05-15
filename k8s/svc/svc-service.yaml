@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-service
+spec:
+  ports:
+  - name: svc
+    port: 8081
+    targetPort: 8081
+    protocol: TCP
+  selector:
+    app: svc-deployment
