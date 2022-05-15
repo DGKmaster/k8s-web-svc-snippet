@@ -48,3 +48,29 @@ Try to think about:
 * Smooth deployment
 * Monitoring
 * Documentation
+
+## Tech Stack
+
+* Go 1.18.2
+* Minikube 1.25.2
+* Kubernetes 1.23.4
+* Containerd 1.5.5
+* PostgreSQL 14.2
+
+## Network
+
+Windows -> VirtualBox -> Ubuntu -> Minikube -> Kubernetes -> Containerd -> Go & PostgreSQL
+
+## How To Run
+
+```bash
+# Start cluster
+minikube start --kubernetes-version=v1.23.4 --cni=cilium --container-runtime containerd --nodes 3
+
+minikube addons enable ingress
+
+# In Virtualbox VM forward port from Minikube to Windows VS Code
+socat tcp-listen:8443,reuseaddr,fork tcp:192.168.49.2:8443
+
+kubectl exec db-statefulset-0 -c postgres -it -- /bin/bash
+```
