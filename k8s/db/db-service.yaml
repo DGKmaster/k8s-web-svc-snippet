@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: db-service
 spec:
+  # TODO: Change to headless
   # type: ClusterIP
   # clusterIP: None
   ports:

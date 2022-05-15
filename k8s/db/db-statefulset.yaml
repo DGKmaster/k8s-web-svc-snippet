@@ -32,6 +32,7 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: data
+      # TODO: Change to Persistent Volume
       volumes:
         - name: data
           emptyDir: {}
