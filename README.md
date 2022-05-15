@@ -104,8 +104,8 @@ kubectl port-forward pod/db-statefulset-0 5432:5432
 
 ```bash
 k8s-web-svc-snippet/svc$ docker build -f Dockerfile -t svc-image:latest .
-docker tag svc-image dgkmaster/ubuntu-pcl
-docker push dgkmaster/ubuntu-pcl
+k8s-web-svc-snippet/svc$ docker tag svc-image dgkmaster/ubuntu-pcl
+k8s-web-svc-snippet/svc$ docker push dgkmaster/ubuntu-pcl
 ```
 
 ### Test API
