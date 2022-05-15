@@ -5,8 +5,7 @@ COPY ./* ./
 RUN go build -o app .
 
 # Release stage
-FROM alpine:latest  
-RUN apk --no-cache add ca-certificates
+FROM debian:stable-slim
 WORKDIR /app
 COPY --from=0 app ./
 CMD ["./app"]  
