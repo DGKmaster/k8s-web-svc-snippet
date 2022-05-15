@@ -18,7 +18,7 @@ type Town struct {
 
 func main() {
 
-	dsn := "host=localhost user= password= dbname= port=5432 sslmode=disable TimeZone=Europe/Moscow"
+	dsn := "host=db-service user=postgres password=postgres_secret dbname=postgres port=5432 sslmode=disable TimeZone=Europe/Moscow"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
