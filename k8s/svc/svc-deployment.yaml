@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: svc-deployment
+  labels:
+    app: svc-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: svc-deployment
+  template:
+    metadata:
+      labels:
+        app: svc-deployment
+    spec:
+      containers:
+      - name: svc-deployment
+        image: dgkmaster/ubuntu-pcl:latest
+        ports:
+        - containerPort: 8081
