@@ -49,6 +49,16 @@ Try to think about:
 * Monitoring
 * Documentation
 
+## Project structure
+
+```tree
+.
+├── k8s      # K8s Manifests
+│   ├── db   # Manifests for PostgreSQL database
+│   └── svc  # Manifests for Golang web service
+└── svc      # Golang web service source code
+```
+
 ## Tech Stack
 
 * Go 1.18.2
