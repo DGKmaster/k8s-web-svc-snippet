@@ -41,13 +41,17 @@ Response:
 Based on Kubernetes provide manifests to deploy the application to any k8s-cluster.
 Feel free to use any database or ingress controller.
 
-Try to think about:
-
 * Scaling
+  * Database can be scaled using statefulset.
 * High-availability
+  * PodAntiAffinity for web service.
 * Smooth deployment
+  * Deployment RollingUpdate.
 * Monitoring
+  * Not implemented.
+  * TODO: Prometheus operator.
 * Documentation
+  * README and code comments.
 
 ## Project structure
 
