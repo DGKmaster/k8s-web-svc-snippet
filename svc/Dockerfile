@@ -1,7 +1,7 @@
 # Build stage
 FROM golang:1.18.2
 WORKDIR /app
-COPY svc/* ./
+COPY ./* ./
 RUN go build -o app .
 
 # Release stage
