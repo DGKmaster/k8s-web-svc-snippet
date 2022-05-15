@@ -63,21 +63,41 @@ Windows -> VirtualBox -> Ubuntu -> Minikube -> Docker -> Containerd -> Go & Post
 
 ## How To Run
 
+### Cluster setup
+
 ```bash
 # Start cluster
 minikube start --kubernetes-version=v1.23.3 --cni=cilium --nodes 3
 
 # Enable Ingress controller
 minikube addons enable ingress
+```
 
+### Local development
+
+```bash
 # In Virtualbox VM forward port from Minikube to Windows VS Code
 socat tcp-listen:8443,reuseaddr,fork tcp:192.168.49.2:8443
 
+# Debug DB
 kubectl exec db-statefulset-0 -c postgres -it -- /bin/bash
 
-curl -x 192.168.49.2:80 dgk.io/db
-
-k8s-web-svc-snippet$ docker build -f docker/svc.dockerfile -t svc-image:latest .
-
+# Local dev
 kubectl port-forward pod/db-statefulset-0 5432:5432
+```
+
+### Build and release application
+
+```bash
+k8s-web-svc-snippet/svc$ docker build -f Dockerfile -t svc-image:latest .
+docker tag svc-image dgkmaster/ubuntu-pcl
+docker push dgkmaster/ubuntu-pcl
+```
+
+### Test API
+
+```bash
+curl -x 192.168.49.2:80 dgk.io/svc
+curl localhost:8081/add -H "Content-Type: application/json" -d '{"city":"London"}'
+curl localhost:8081/all
 ```
