@@ -78,4 +78,6 @@ kubectl exec db-statefulset-0 -c postgres -it -- /bin/bash
 curl -x 192.168.49.2:80 dgk.io/db
 
 k8s-web-svc-snippet$ docker build -f docker/svc.dockerfile -t svc-image:latest .
+
+kubectl port-forward pod/db-statefulset-0 5432:5432
 ```
