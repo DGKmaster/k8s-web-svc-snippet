@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"html"
 	"log"
@@ -11,8 +12,8 @@ import (
 )
 
 type Town struct {
-	ID   uint `gorm:"primaryKey;autoIncrement"`
-	Name string
+	ID   uint   `gorm:"primaryKey;autoIncrement;not null;unique" json:"-"`
+	City string `json:"city"`
 }
 
 func main() {
@@ -30,15 +31,38 @@ func main() {
 	})
 
 	http.HandleFunc("/add", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "add")
-		town := Town{Name: "%q"}
+		var town Town
+		err := json.NewDecoder(r.Body).Decode(&town)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+		}
 		db.Create(&town)
+
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/json")
+		resp := make(map[string]string)
+		resp["message"] = "Status OK"
+		jsonResp, err := json.Marshal(resp)
+		if err != nil {
+			log.Fatalf("Error happened in JSON marshal. Err: %s", err)
+		}
+		w.Write(jsonResp)
 	})
 
 	http.HandleFunc("/all", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "all")
-		town := Town{}
-		db.First(&town)
+		// fmt.Fprintf(w, "all")
+		town := []Town{}
+		db.Find(&town)
+
+		js, err := json.Marshal(town)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
 	})
 
 	log.Fatal(http.ListenAndServe(":8081", nil))
