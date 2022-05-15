@@ -12,8 +12,8 @@ import (
 )
 
 type Town struct {
-	ID   uint   `gorm:"primaryKey;autoIncrement;not null;unique" json:"-"`
-	City string `json:"city"`
+	ID   uint   `gorm:"primaryKey;autoIncrement" json:"-"`
+	City string `gorm:"not null;unique" json:"city"`
 }
 
 func main() {
@@ -54,7 +54,12 @@ func main() {
 		town := []Town{}
 		db.Find(&town)
 
-		js, err := json.Marshal(town)
+		output := make([]string, 0, len(town))
+		for _, element := range town {
+			output = append(output, element.City)
+		}
+
+		js, err := json.Marshal(output)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
