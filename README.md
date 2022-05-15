@@ -65,12 +65,17 @@ Windows -> VirtualBox -> Ubuntu -> Minikube -> Kubernetes -> Containerd -> Go & 
 
 ```bash
 # Start cluster
-minikube start --kubernetes-version=v1.23.4 --cni=cilium --container-runtime containerd --nodes 3
+minikube start --kubernetes-version=v1.23.3 --cni=cilium --nodes 3
 
+# Enable Ingress controller
 minikube addons enable ingress
 
 # In Virtualbox VM forward port from Minikube to Windows VS Code
 socat tcp-listen:8443,reuseaddr,fork tcp:192.168.49.2:8443
 
 kubectl exec db-statefulset-0 -c postgres -it -- /bin/bash
+
+curl -x 192.168.49.2:80 dgk.io/db
+
+k8s-web-svc-snippet$ docker build -f docker/svc.dockerfile -t svc-image:latest .
 ```
