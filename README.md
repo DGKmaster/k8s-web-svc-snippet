@@ -54,12 +54,12 @@ Try to think about:
 * Go 1.18.2
 * Minikube 1.25.2
 * Kubernetes 1.23.4
-* Containerd 1.5.5
+* Docker 20.10.16
 * PostgreSQL 14.2
 
 ## Network
 
-Windows -> VirtualBox -> Ubuntu -> Minikube -> Kubernetes -> Containerd -> Go & PostgreSQL
+Windows -> VirtualBox -> Ubuntu -> Minikube -> Docker -> Containerd -> Go & PostgreSQL
 
 ## How To Run
 
