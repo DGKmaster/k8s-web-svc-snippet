@@ -59,7 +59,7 @@ Try to think about:
 
 ## Network
 
-Windows -> VirtualBox -> Ubuntu -> Minikube -> Docker -> Containerd -> Go & PostgreSQL
+Windows -> VirtualBox -> Ubuntu -> Minikube -> Docker -> Go & PostgreSQL
 
 ## How To Run
 

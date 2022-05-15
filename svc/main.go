@@ -17,8 +17,8 @@ type Town struct {
 }
 
 func main() {
-
-	dsn := "host=db-service user=postgres password=postgres_secret dbname=postgres port=5432 sslmode=disable TimeZone=Europe/Moscow"
+	// TODO: Change to ENV and Secret
+	dsn := "host=localhost user=postgres password=postgres_secret dbname=postgres port=5432 sslmode=disable TimeZone=Europe/Moscow"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
@@ -40,8 +40,7 @@ func main() {
 
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
-		resp := make(map[string]string)
-		resp["message"] = "Status OK"
+		resp := "Completed"
 		jsonResp, err := json.Marshal(resp)
 		if err != nil {
 			log.Fatalf("Error happened in JSON marshal. Err: %s", err)
