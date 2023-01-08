@@ -1,5 +1,8 @@
 # k8s-web-svc-snippet
 
+Simple Golang web app.
+It is deployed in k8s with Postgres DB.
+
 ## Application
 
 Develop the small web-service, which:
